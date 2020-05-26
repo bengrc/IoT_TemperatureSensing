@@ -3,32 +3,35 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
-app.use(express.static(__dirname + '/node_modules'));
+//app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/public'));
+
+
 app.get('/', function (req, res, next) {
     res.sendFile(__dirname + '/index.html');
 });
 
+
 io.on('connection', function (client) {
     console.log('Client connected...');
-    client.on('join', function (data) {
-        console.log(data);
-    });
-    
+
     var interval = setInterval(() => {
-        var temperature = updateTemperature();
-        var humidity = updateHumidity(humidity);
-        console.log("Temperature: " + temperature + " degrés");
-        console.log('Humidity: ' + humidity + '%');
+        var temperature = updateTemperature(50, 30);
+        var humidity = updateHumidity(100, 0);
+        console.log("*-------------------*");
+        console.log("Temperature:   " + temperature + "°C");
+        console.log('Humidity:      ' + humidity + '%');
+        console.log("*-------------------*\n");
         io.emit('temperature', temperature);
         io.emit('humidity', humidity);
     }, 2000);
 
-    function updateTemperature() {
-        return (Math.random() * (50 - 30) + 30).toFixed(1);
+    function updateTemperature(min, max) {
+        return (Math.random() * (max - min) + min).toFixed(1);
     }
 
-    function updateHumidity() {
-        return (Math.random() * (100 - 0) + 0).toFixed(0);
+    function updateHumidity(min, max) {
+        return (Math.random() * (max - min) + min).toFixed(0);
     }
 
     client.on('disconnect', function(data) {
@@ -36,8 +39,4 @@ io.on('connection', function (client) {
     }); 
 });
 
-io.on('disconnect', function () {
-    console.log("JE APSSE LA")
-    io.sockets.emit('user disconnected');
-});
 server.listen(4200);

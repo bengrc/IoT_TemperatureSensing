@@ -2,30 +2,17 @@
 <html lang="en">
 
 <head>
-
 </head>
 
 <body>
-    <h1>"The value for number is: " <span id="temperature"></span></h1>
-    <h1>"The value for number is: " <span id="humidity"></span></h1>
-    
-    <div class="meteo">
-        
-    </div>
-    <button onclick="stopSensing(socket)">Stop Sensing</button>
-    <h1>Hello World!</h1>
-    <div id="future"></div>
-    <form id="form" id="chat_form">
-        <input id="chat_input" type="text">
-        <input type="submit" value="Send">
-    </form>
-    <div id_temperature>
+    <h2>Temperature: <span id="temperature"></span>°C</h1>
+    <h2>Humidity: <span id="humidity"></span>%</h1>
 
     </div>
     <script src="/jquery/dist/jquery.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io.connect('http://localhost:4200');
+        var socket = io.connect('http://192.168.1.28:4200');
 
         socket.on('temperature', function (data) {
             document.getElementById("temperature").innerHTML = data
@@ -40,7 +27,6 @@
         function stopSensing(socket) {
             socket.disconnect();
         }
-
     </script>
 </body>
 
