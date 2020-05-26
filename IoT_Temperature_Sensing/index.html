@@ -1,22 +1,47 @@
-<!doctype html>  
-<html lang="en">  
-    <head>
+<!doctype html>
+<html lang="en">
 
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <div id="future"></div>
-        <form id="form" id="chat_form">
-            <input id="chat_input" type="text">
-            <input type="submit" value="Send">
-        </form>
-         <script src="/jquery/dist/jquery.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script>  
-            var socket = io.connect('http://localhost:4200');
-            socket.on('connect', function(data) {
-               socket.emit('join', 'Hello World from client');
-            });
-           </script>
-    </body>
+<head>
+
+</head>
+
+<body>
+    <h1>"The value for number is: " <span id="temperature"></span></h1>
+    <h1>"The value for number is: " <span id="humidity"></span></h1>
+    
+    <div class="meteo">
+        
+    </div>
+    <button onclick="stopSensing(socket)">Stop Sensing</button>
+    <h1>Hello World!</h1>
+    <div id="future"></div>
+    <form id="form" id="chat_form">
+        <input id="chat_input" type="text">
+        <input type="submit" value="Send">
+    </form>
+    <div id_temperature>
+
+    </div>
+    <script src="/jquery/dist/jquery.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:4200');
+
+        socket.on('temperature', function (data) {
+            document.getElementById("temperature").innerHTML = data
+            console.log(data);
+        });
+
+        socket.on('humidity', function (data) {
+            document.getElementById("humidity").innerHTML = data
+            console.log(data);
+        });
+
+        function stopSensing(socket) {
+            socket.disconnect();
+        }
+
+    </script>
+</body>
+
 </html>
