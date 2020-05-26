@@ -1,2 +1,2 @@
-# IoT_TemperatureDetector
+# IoT_TemperatureSensing
 Final project of IoT courses
